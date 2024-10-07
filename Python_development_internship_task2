@@ -1,0 +1,48 @@
+import tkinter as tk
+import random
+import string
+
+# Create the main window
+root = tk.Tk()
+root.title("Password Generator")
+
+# Create input field for password length
+length_label = tk.Label(root, text="Enter password length:")
+length_label.grid(row=0, column=0)
+
+length_entry = tk.Entry(root)
+length_entry.grid(row=0, column=1)
+
+# Create a variable to hold the generated password
+password_var = tk.StringVar()
+
+# Create a label to display the generated password
+password_label = tk.Label(root, textvariable=password_var)
+password_label.grid(row=2, columnspan=2)
+
+# Create a button to generate the password
+generate_button = tk.Button(root, text="Generate Password", command=lambda: password_var.set(''))
+
+generate_button.grid(row=1, columnspan=2)
+
+# Generate password when button is clicked
+def generate_password():
+    try:
+        length = int(length_entry.get())
+        if length < 1:
+            password_var.set("Length must be at least 1.")
+            return
+        
+        # Define character sets
+        characters = string.ascii_letters + string.digits + string.punctuation
+        # Generate random password
+        password = ''.join(random.choice(characters) for _ in range(length))
+        password_var.set(password)
+    except ValueError:
+        password_var.set("Invalid input. Please enter a number.")
+
+# Assign the button's command to the password generator
+generate_button.config(command=generate_password)
+
+# Start the GUI event loop
+root.mainloop()
