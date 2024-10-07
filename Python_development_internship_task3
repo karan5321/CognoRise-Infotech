@@ -1,0 +1,56 @@
+import tkinter as tk
+import random
+
+# Initialize scores
+user_score = 0
+computer_score = 0
+
+# Create the main window
+root = tk.Tk()
+root.title("Rock, Paper, Scissors")
+
+# Instructions label
+instructions = tk.Label(root, text="Select Rock, Paper, or Scissors:")
+instructions.pack()
+
+# Create a label to display the result
+result_var = tk.StringVar()
+result_label = tk.Label(root, textvariable=result_var)
+result_label.pack()
+
+# Create a label to display scores
+score_var = tk.StringVar()
+score_label = tk.Label(root, textvariable=score_var)
+score_label.pack()
+
+# Update score display function
+score_var.set(f"User: {user_score} - Computer: {computer_score}")
+
+# Button click logic
+def play_game(user_choice):
+    global user_score, computer_score
+
+    computer_choice = random.choice(["Rock", "Paper", "Scissors"])
+    result = ""
+
+    if user_choice == computer_choice:
+        result = "It's a tie!"
+    elif (user_choice == "Rock" and computer_choice == "Scissors") or \
+         (user_choice == "Scissors" and computer_choice == "Paper") or \
+         (user_choice == "Paper" and computer_choice == "Rock"):
+        result = "You win!"
+        user_score += 1
+    else:
+        result = "You lose!"
+        computer_score += 1
+
+    result_var.set(f"You chose {user_choice}. Computer chose {computer_choice}. {result}")
+    score_var.set(f"User: {user_score} - Computer: {computer_score}")
+
+# Create buttons for user choices
+for choice in ["Rock", "Paper", "Scissors"]:
+    button = tk.Button(root, text=choice, command=lambda c=choice: play_game(c))
+    button.pack(side=tk.LEFT)
+
+# Start the GUI event loop
+root.mainloop()
